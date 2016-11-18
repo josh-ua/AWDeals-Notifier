@@ -10,8 +10,15 @@ from twilio.rest import TwilioRestClient
 
 
 def checkIfSelling(url, name):
-	productPage = requests.get(url)
-	soup = BeautifulSoup(productPage.content, "html.parser")
+	try:
+		productPage = requests.get(url)
+		soup = BeautifulSoup(productPage.content, "html.parser")
+	except:
+		print('')
+		print("Failed to load the page!")
+		print('')
+		return False;
+
 	AMWcount = 0;
 	for seller in soup.find_all('h3', {'class':'a-spacing-none olpSellerName'}): ##find imgs (denotes AMW seller)
 		for img in seller.findAll('img'):
